@@ -90,8 +90,8 @@ const galleryItemsCreate = (elem) => {
 };
 
 const galleryItems = galleryArray.map(galleryItemsCreate);
-
 // console.dir(galleryItems);
+
 function removeAndClear() {
   modalRef.classList.remove("is-open");
   modalImgRef.setAttribute("src", "");
@@ -144,7 +144,8 @@ const closeModalHandler = (event) => {
 };
 
 const itemOpenModalHandler = (event) => {
-  if (event.target.nodeName === "IMG") {
+  //добавлено условие на случай не загрузки картинок, что бы открывалась модалка по нажатию на ссылку(лишку)
+  if (event.target.nodeName === "IMG" || event.target.nodeName === "A") {
     modalImgRef.setAttribute("src", event.target.getAttribute("data-set"));
     modalImgRef.setAttribute("alt", event.target.getAttribute("alt"));
     modalRef.classList.add("is-open");
@@ -155,7 +156,6 @@ const itemOpenModalHandler = (event) => {
   //   getImgUrl(event);
   //   console.log(getImgUrl(event));
 };
-
 thumbGalleryRef.append(...galleryItems);
 // console.dir(thumbGallery);
 
