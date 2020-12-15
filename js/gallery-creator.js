@@ -92,7 +92,7 @@ const galleryItemsCreate = (elem) => {
 const galleryItems = galleryArray.map(galleryItemsCreate);
 // console.dir(galleryItems);
 
-function removeAndClear() {
+function removeAndClearModal() {
   modalRef.classList.remove("is-open");
   modalImgRef.setAttribute("src", "");
   modalImgRef.setAttribute("alt", "");
@@ -101,10 +101,18 @@ function removeAndClear() {
   modalRef.removeEventListener("click", closeModalHandler);
 }
 
+function addAndSetModal() {
+  modalImgRef.setAttribute("src", event.target.getAttribute("data-set"));
+  modalImgRef.setAttribute("alt", event.target.getAttribute("alt"));
+  modalRef.classList.add("is-open");
+  modalRef.addEventListener("click", closeModalHandler);
+  window.addEventListener("keydown", itemKeySwitchHandler);
+}
+
 const itemKeySwitchHandler = (event) => {
   //   console.dir(event.code);
   if (event.code === "Escape") {
-    removeAndClear();
+    removeAndClearModal();
   }
   const galleryArrayLinks = galleryArray.map(({ original }) => original);
   const prevImgSrc = modalImgRef.getAttribute("src");
@@ -140,18 +148,14 @@ const closeModalHandler = (event) => {
   if (event.target === modalImgRef) {
     return;
   }
-  removeAndClear();
+  removeAndClearModal();
 };
 
 const itemOpenModalHandler = (event) => {
   //добавлено условие на случай не загрузки картинок, что бы открывалась модалка по нажатию на ссылку(лишку)
   if (event.target.nodeName === "IMG" || event.target.nodeName === "A") {
-    modalImgRef.setAttribute("src", event.target.getAttribute("data-set"));
-    modalImgRef.setAttribute("alt", event.target.getAttribute("alt"));
-    modalRef.classList.add("is-open");
+    addAndSetModal();
     event.preventDefault();
-    modalRef.addEventListener("click", closeModalHandler);
-    window.addEventListener("keydown", itemKeySwitchHandler);
   }
   //   getImgUrl(event);
   //   console.log(getImgUrl(event));
